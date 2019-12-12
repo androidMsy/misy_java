@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>misy登录</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="../js/login.js "></script>
+    <link type="text/css" href="../css/inputMargin.css" rel="stylesheet"/>
+    <link type="text/css" href="../css/imgBg.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="loginBg"></div>
+    <div class="center_username">
+        <div >
+            <input id="username" type="text" class="inputMargin" placeholder="用户名">
+        </div>
+        <div >
+            <input id="password" type="text" class="inputMargin" placeholder="密码">
+        </div>
+        <div >
+            <button th:text="登录" class="inputMargin" onclick="login()"></button>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.misy.mybatis.mapper.ProductMapper">
+    <resultMap id="selectProduct" type="com.misy.mybatis.entity.ProductEntity">
+            <id column="id" property="id"/>
+            <result column="user_id" property="userId"/>
+            <result column="product_id" property="productId"/>
+            <result column="product_name" property="productName"/>
+            <result column="product_type" property="productType"/>
+            <result column="content" property="content"/>
+            <result column="price" property="price"/>
+            <result column="cover_img" property="coverImg"/>
+            <result column="src_imgs" property="srcImgs"/>
+            <result column="extend" property="extend"/>
+    </resultMap>
+    <select id="getAllProduct" resultMap="selectProduct" >
+        select user_id,
+        product_id,
+        product_name,
+        product_type,
+        content,
+        price,
+        cover_img,
+        src_imgs,
+        extend
+         from product
+        <where>
+            <if test="userId != null">
+                user_id = #{userId, jdbcType=VARCHAR}
+            </if>
+            <if test="productType != 0">
+               and product_type = #{productType, jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <resultMap id="qyProduct" autoMapping="true" type="com.misy.mybatis.entity.ProductEntity">
+        <id column="id" property="Id"/>
+        <result column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_type" property="productType"/>
+        <result column="content" property="content"/>
+        <result column="price" property="price"/>
+        <result column="cover_img" property="coverImg"/>
+        <result column="src_imgs" property="srcImgs"/>
+        <result column="is_like" property="isLike"/>
+        <result column="extend" property="extend"/>
+        <association property="userAccount" javaType="java.util.Map">
+            <result column="user_id" property="userId"/>
+            <result column="username" property="username"/>
+            <result column="realname" property="realname"/>
+            <result column="header_url" property="header_url"/>
+            <result column="intro" property="intro"/>
+        </association>
+    </resultMap>
+    <select id="qyProductAndUser" resultMap="qyProduct" >
+        SELECT user_account.user_id
+        ,user_account.username
+        ,user_account.realname
+        ,user_account.header_url
+        ,user_account.intro
+        ,product.product_id
+        ,product.product_name
+        ,product.product_type
+        ,product.content
+        ,product.price
+        ,product.cover_img
+        ,product.src_imgs
+        ,product.is_like
+        ,product.extend
+        FROM
+        product LEFT JOIN  user_account ON
+        user_account.user_id = product.user_id
+        <where>
+            <if test="userId != null">
+                product.user_id = #{userId, jdbcType=VARCHAR}
+            </if>
+            <if test="productType != 0">
+                and product.product_type = #{productType, jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+</mapper>

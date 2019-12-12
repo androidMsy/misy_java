@@ -1,0 +1,95 @@
+body .inputMargin{
+    width: 30%;
+    height: 32px;
+    margin: 15px 0px 0px 0px;
+}
+body .center_username{
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 100%;
+    height: 32px;
+}
+body .center_table{
+    box-sizing: border-box;
+    width: 84%;
+    height: auto;
+    margin: 4% auto;
+    float: left;
+}
+ .center_table .table_title{
+     height: 60px;
+     text-align: center;
+}
+.menu_list {
+    height: 100%;
+    width: auto;
+    margin: 8% 20px 8% 0;
+    padding-left: 0;
+    line-height: 300%;
+    text-align: center;
+         border: 1px solid black;
+    float: left;
+    list-style: none;
+}
+ .menu_item {
+     color: white;
+     padding-left: 10px;
+     padding-right: 10px;
+     background-color: blue;
+}
+ .center_table .table_item{
+     text-align: center;
+}
+ .center_table .img{
+     position: relative;
+    width: 80px;
+    height: 80px;
+}
+.file{
+    padding: 4px 10px;
+    height: 70px;
+    margin: -70px auto 0 auto;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #00000000;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.file input{
+    opacity: 0;
+    position: absolute;
+    left:1px;
+    width:100%;
+    height:100%;
+}
+.span-style{
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.bottom_father {
+    position: relative;
+    align-content: center;
+}
+.bottom_father .page{
+    text-align: right;
+    margin-top: -30px;
+    margin-right: 8%;
+    margin-bottom: 5%;
+    box-sizing: border-box;
+}
+
+
+.bottom_father .search_input {
+    position: absolute;
+    left: 68%;
+    margin-top: -50px;
+}
+
+.horizontal {
+    float: left;
+}
+
