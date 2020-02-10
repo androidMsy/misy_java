@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.misy.mybatis.mapper.ChatMapper">
+    <resultMap id="qyEntity" type="com.misy.mybatis.entity.ChatEntity">
+        <id property="id" column="id"></id>
+        <result property="sendUserId" column="send_user_id"/>
+        <result property="targetUserId" column="target_user_id"/>
+        <result property="realname" column="realname"/>
+        <result property="headerUrl" column="header_url"/>
+        <result property="content" column="content"/>
+        <result property="extend" column="extend"/>
+    </resultMap>
+    <select id="qyChatHistory" resultMap="qyEntity">
+        select send_user_id,
+        target_user_id,
+        realname,
+        header_url,
+        content,
+        extend,
+        create_date
+        from chat_content
+        WHERE
+        send_user_id = #{sendUserId, jdbcType=VARCHAR}
+        AND target_user_id = #{targetUserId, jdbcType=VARCHAR}
+        OR
+        target_user_id = #{sendUserId, jdbcType=VARCHAR}
+        AND send_user_id = #{targetUserId, jdbcType=VARCHAR}
+        ORDER BY id DESC
+    </select>
+    <select id="qyOffLineChatHistory" resultMap="qyEntity">
+        select send_user_id,
+        target_user_id,
+        realname,
+        header_url,
+        content,
+        extend,
+        create_date
+        from chat_content
+        WHERE
+        send_user_id = #{sendUserId, jdbcType=VARCHAR}
+        AND target_user_id = #{targetUserId, jdbcType=VARCHAR}
+        AND is_online = 0
+        OR
+        target_user_id = #{sendUserId, jdbcType=VARCHAR}
+        AND send_user_id = #{targetUserId, jdbcType=VARCHAR}
+        AND is_online = 0
+        ORDER BY id DESC
+    </select>
+</mapper>

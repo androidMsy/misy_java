@@ -7,6 +7,9 @@ import java.io.Serializable;
 
 @Getter
 public class ResultUtil<T> implements Serializable {
+
+    public static final String RESPONSE_SUCCESS = "获取成功";
+
     private static final long serialVersionUID = 3436477890959388499L;
 
     /**

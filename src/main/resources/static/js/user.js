@@ -19,7 +19,8 @@ function getData() {
                         + '<td onclick="modifyRealname(\'' + userId + '\')">' + obj.realname + '</td>'
                         + '<td><img id="show" src = "'+obj.headerUrl+'" class="img"><div class="file"><input type="file" accept="image/*" onchange="openFile(\''+ userId +'\' , event)"></input></div></td>'
                         + '<td onclick="modifyIntro(\''+ userId +'\')">' + obj.intro + '</td>'
-                        + '<td><img src="../img/delete_icon.png" onclick="deleteUser(\''+ userId +'\')" width="24px" height="24px"></td></tr>'
+                        + '<td><img src="../img/delete_icon.png" onclick="deleteUser(\''+ userId +'\')" width="24px" height="24px">' +
+                        '<img style="margin-left: 10px;width: 24px;height: 24px;" src="../img/chat_icon.png" onclick="toChat(\''+userId+'\')"></td></tr>'
                 }
                 $("#table").html(temp)
                 let sss = "";
@@ -37,8 +38,8 @@ function getData() {
         }
     })
 }
- function showD(text) {
-    alert(text)
+ function showD() {
+    alert("dadasdasds")
 }
 function deleteUser(userId) {
     if (confirm("是否删除该用户")){
@@ -140,4 +141,12 @@ function getPageData(i) {
         pageNum = i;
     }
     getData()
+}
+function toChat(targetUserId) {
+    let myUserId = localStorage.getItem("userId");
+    if (myUserId == targetUserId){
+        alert("不能与自己聊天")
+        return;
+    }
+    window.location.href = "/th/chat?targetUserId=" + targetUserId
 }

@@ -15,7 +15,7 @@ body .center_table{
     width: 84%;
     height: auto;
     margin: 4% auto;
-    float: left;
+    /*float: left;*/
 }
  .center_table .table_title{
      height: 60px;
@@ -23,16 +23,17 @@ body .center_table{
 }
 .menu_list {
     height: 100%;
-    width: auto;
+    width: 100px;
     margin: 8% 20px 8% 0;
     padding-left: 0;
     line-height: 300%;
     text-align: center;
-         border: 1px solid black;
+    border: 1px solid black;
     float: left;
     list-style: none;
 }
  .menu_item {
+     width: 100px;
      color: white;
      padding-left: 10px;
      padding-right: 10px;

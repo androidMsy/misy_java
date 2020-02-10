@@ -1,12 +1,14 @@
 package com.misy.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@TableName("user_account")
 public class UserAccount implements Serializable {
 
     private String userId;
@@ -14,6 +16,7 @@ public class UserAccount implements Serializable {
     private String password;
     private String token;
     private String realname;
-    private String header_url;
+    @TableField("header_url")
+    private String headerUrl;
     private String intro;
 }

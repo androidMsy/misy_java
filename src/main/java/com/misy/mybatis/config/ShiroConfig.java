@@ -7,6 +7,9 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.Cookie;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
@@ -28,9 +31,9 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 没有登陆的用户只能访问登陆页面
-//        shiroFilterFactoryBean.setLoginUrl("/th/login");
+//        shiroFilterFactoryBean.setLoginUrl("http://localhost:8080/th/login");
 //         登录成功后要跳转的链接
-//        shiroFilterFactoryBean.setSuccessUrl("/th/home");
+//        shiroFilterFactoryBean.setSuccessUrl("http://localhost:8080/th/home");
         // 未授权界面; ----这个配置了没卵用，具体原因想深入了解的可以自行百度
         //shiroFilterFactoryBean.setUnauthorizedUrl("/auth/403");
         //自定义拦截器
@@ -49,6 +52,14 @@ public class ShiroConfig {
 //        filterChainDefinitionMap.put("/**", "authc,kickout");
 //        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
+    }
+    @Bean
+    public DefaultWebSessionManager getDefaultWebSessionManager(){
+        DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
+        defaultWebSessionManager.setGlobalSessionTimeout(Integer.MAX_VALUE);
+        defaultWebSessionManager.setSessionValidationSchedulerEnabled(true);
+        defaultWebSessionManager.setSessionIdCookieEnabled(true);
+        return defaultWebSessionManager;
     }
     @Bean
     public SecurityManager securityManager() {

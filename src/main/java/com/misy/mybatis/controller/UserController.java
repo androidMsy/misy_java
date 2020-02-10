@@ -1,8 +1,5 @@
 package com.misy.mybatis.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,7 +16,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +24,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import static com.misy.mybatis.contacts.LoginContacts.*;
-import static com.misy.mybatis.utils.RequestUtils.getUserId;
-import static com.misy.mybatis.utils.RequestUtils.tokenIsAuthentication;
 
 
 @RestController
@@ -40,11 +34,12 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Object register(@RequestBody UserAccount userAccount){
-        if (TextUtils.isEmpty(userAccount.getUsername()) || TextUtils.isEmpty(userAccount.getPassword())){
+    public Object register(@RequestBody UserAccount account){
+        if (TextUtils.isEmpty(account.getUsername()) || TextUtils.isEmpty(account.getPassword())){
             return ResultUtil.fail.msg(INPUT_USERORPSWD);
         }else {
-            if (userService.isRegisterAccount(userAccount.getUsername()))return ResultUtil.success.msg(ACCOUNT_ISREGISTED);
+            UserAccount userAccount = account;
+            if (userService.isRegisterAccount(account.getUsername()))return ResultUtil.success.msg(ACCOUNT_ISREGISTED);
             userAccount.setUserId(UUIDUtils.getUUID());
             userService.save(userAccount);
             return ResultUtil.build(userAccount);
@@ -52,11 +47,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Object login(@RequestBody UserAccount userAccount, HttpServletRequest request){
+    public Object login(@RequestBody UserAccount account, HttpServletRequest request){
         try {
-            UsernamePasswordToken token = new UsernamePasswordToken(userAccount.getUsername(), userAccount.getPassword());
+            UsernamePasswordToken token = new UsernamePasswordToken(account.getUsername(), account.getPassword());
             Subject subject = SecurityUtils.getSubject();
             subject.login(token);
+            SecurityUtils.getSubject().getSession().setTimeout(-1000L);
             Serializable authToken =  subject.getSession().getId();
             UserAccount result = (UserAccount) subject.getPrincipal();
             result.setToken((String) authToken);
@@ -65,7 +61,6 @@ public class UserController {
         }catch (DisabledAccountException e){
             request.setAttribute("msg", USER_NOT_PEIMISSION);
             return ResultUtil.fail.msg(USER_NOT_PEIMISSION);
-
         }catch (UnknownAccountException e){
             request.setAttribute("msg", LOGIN_FAILED);
             return ResultUtil.fail.msg(LOGIN_FAILED);
@@ -73,6 +68,12 @@ public class UserController {
             request.setAttribute("msg", e.getMessage());
             return ResultUtil.fail.msg(e.getMessage());
         }
+    }
+    @RequestMapping(value = "/loginout",method = RequestMethod.GET)
+    public Object loginout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return ResultUtil.success.msg(LOGINOUT_SUCCESS);
     }
 
     /**

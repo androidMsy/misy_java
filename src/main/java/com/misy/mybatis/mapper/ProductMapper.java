@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ProductMapper extends BaseMapper<ProductEntity> {
-    List<ProductEntity> getAllProduct(String userId, int productType);
+    List<ProductEntity> getAllProduct(String userId, Integer productType);
     List qyProductAndUser(String userId, Integer productType);
 }

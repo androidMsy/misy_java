@@ -9,20 +9,24 @@ function login() {
         alert("请输入密码")
         return
     }
-    var data = {username:username,password:password}
+    let data = {username:username,password:password}
     data = JSON.stringify(data)
     $.ajax({
         url: "/user/login",
         type: "POST",
         data: data,
         contentType:"application/json;charset=UTF-8",
-        dataType: "json",
         success:function (response) {
             console.log("response:" + response)
             if (response.status == 0){
-                var userAccount = response.data
-                var token = userAccount.token
+                let userAccount = response.data
+                let token = userAccount.token
                 document.cookie = token
+                localStorage.setItem("username", userAccount.username)
+                localStorage.setItem("realname", userAccount.realname)
+                localStorage.setItem("userId", userAccount.userId)
+                localStorage.setItem("headerUrl", userAccount.headerUrl)
+                localStorage.setItem("intro", userAccount.intro)
                 window.location.href = "/th/home"
             }else {
                 alert(response.msg)
